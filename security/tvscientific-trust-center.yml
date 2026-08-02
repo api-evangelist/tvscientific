@@ -1,0 +1,18 @@
+generated: '2026-07-21'
+method: searched
+probe: true
+source: https://trust.tvscientific.com/
+url: https://trust.tvscientific.com/
+# The trust center resolves (HTTP 200, page <title>Trust Center</title>, companySlug "tvscientific")
+# but is a client-rendered SPA whose framework/certification data loads from an /api/v1/ origin
+# that is not reachable unauthenticated, so named certifications could not be verified.
+# Recorded as a real, published trust center; certifications left empty rather than fabricated.
+certifications: []
+evidence:
+  - source: https://trust.tvscientific.com/
+    kind: trust-center
+    detail: 'HTTP 200; <title>Trust Center</title>; config.js companySlug "tvscientific"'
+notes: >-
+  Certification list is JavaScript-rendered and not extractable from static HTML;
+  no named certs (SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP) were verified, so
+  no Compliance pointer is emitted.
