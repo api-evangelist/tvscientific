@@ -1,0 +1,102 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live probes of https://api.tvscientific.app and the tvScientific web properties on
+  2026-08-12, plus https://trust.tvscientific.com/. Nothing here is claimed by the provider;
+  every entry is scored against what was observed.
+api: tvScientific Campaign Management API
+conformance:
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document at any probed location on api.tvscientific.app,
+    www.tvscientific.com or tvscientific.app (see discovery/tvscientific-api-discovery.yml
+    specifications_probed — 12 paths, all 404 or SPA shell).
+- id: graphql
+  conforms: false
+  evidence: 'https://api.tvscientific.app/graphql -> 404'
+- id: asyncapi
+  conforms: false
+  evidence: No AsyncAPI document and no published event/webhook catalog on any first-party host.
+- id: mcp
+  conforms: false
+  evidence: No hosted MCP server advertised; no /mcp or /sse endpoint; no llms.txt tool list.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on six hosts. Real 404s
+    on www.tvscientific.com, api.tvscientific.app, status.tvscientific.com and tvspix.com;
+    HTML SPA shells (rejected) on tvscientific.app and trust.tvscientific.com.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No /.well-known/oauth-authorization-server, no /.well-known/oauth-protected-resource, no
+    token or authorize endpoint (all 404). The API returns 403 without a WWW-Authenticate
+    challenge.
+- id: oidc
+  conforms: false
+  evidence: 'https://api.tvscientific.app/.well-known/openid-configuration -> 404'
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are {"detail":"..."} as application/json. No application/problem+json, no type/
+    title/status/instance members. See errors/tvscientific-problem-types.yml.
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: >-
+    No first-party security.txt on any tvScientific host. status.tvscientific.com serves one,
+    but its Canonical, Contact and Policy fields are all atlassian.com — it is the Statuspage
+    vendor's document, not tvScientific's.
+- id: rfc8594
+  name: Sunset / Deprecation headers
+  conforms: false
+  evidence: No Sunset or Deprecation header on either version root; no deprecation policy published.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Consistent page envelope {count, next, previous, results} with `page` and `page_size`
+    query parameters, observed at https://api.tvscientific.app/v1/terms_and_conditions/
+    (HTTP 200). Django REST Framework PageNumberPagination.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header advertised or documented; no idempotent-retry semantics published.
+- id: hateoas
+  conforms: true
+  evidence: >-
+    The API is hyperlink-driven: version roots return a link index of every collection, and
+    records carry absolute self `url` fields with relationships expressed as absolute
+    resource URLs (DRF HyperlinkedModelSerializer). Observed at /v1/, /v2/ and
+    /v1/terms_and_conditions/.
+- id: content-negotiation
+  conforms: true
+  evidence: >-
+    Accept-driven with an explicit ?format= override; renders application/json and text/html,
+    parses application/json, application/x-www-form-urlencoded and multipart/form-data. Read
+    from the DRF OPTIONS metadata document.
+- id: http-options-introspection
+  conforms: true
+  evidence: >-
+    OPTIONS returns a machine-readable field-level metadata document (name, description,
+    renders, parses, actions.POST field types/required/read_only/max_length). Confirmed 200
+    on /v1/terms_and_conditions/; 403 on every other collection.
+industry_standards:
+- id: openrtb
+  conforms: unknown
+  evidence: >-
+    tvScientific runs a real-time bidding stack — the status page lists a "Bidder and Ad
+    Serving Service — Real Time Bidding service that powers tvScientific", and trade press
+    reports it consuming a supply-side partner's bidstream API suite. OpenRTB conformance is
+    therefore probable but was NOT verified: no bid-request schema, no supply-partner
+    integration document and no OpenRTB version statement is published on any first-party
+    host. Recorded as unknown rather than asserted.
+- id: iab-tech-lab
+  conforms: unknown
+  evidence: No first-party page claims IAB Tech Lab certification, TAG registration or ads.txt/app-ads.txt authorship.
+compliance_certifications: []
+compliance_note: >-
+  A trust center exists at https://trust.tvscientific.com/ (HTTP 200) but its certification
+  list is client-rendered from an API that is not reachable anonymously, so NO named
+  certification (SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP) could be verified. No
+  `Compliance` pointer is emitted in apis.yml — an unverified cert must not be scored as a
+  published one. See security/tvscientific-trust-center.yml.

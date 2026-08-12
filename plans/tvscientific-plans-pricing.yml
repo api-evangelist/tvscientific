@@ -1,0 +1,43 @@
+generated: '2026-08-12'
+method: searched
+source: https://www.tvscientific.com/
+plan_count: 0
+currency: null
+published_pricing: false
+plans: []
+note: >-
+  tvScientific publishes no pricing page and no plan tiers. There is no /pricing or /plans
+  page on www.tvscientific.com (both 404), no self-serve sign-up, and no rate card. The only
+  published commercial documents are the Platform Master Agreement and the demand-side terms;
+  commercial terms are negotiated with the account team. The site's calls to action are a
+  demo request and a contact form, so this is an enterprise/managed motion, not a
+  plan-and-price motion. Recorded as plan_count 0 rather than omitted — the absence is the
+  finding.
+model:
+  motion: sales-led
+  self_serve_signup: false
+  free_tier: false
+  trial: false
+  billing_surface_exists: true
+  billing_surface_note: >-
+    The Campaign Management API exposes /v1/billing_accounts/, /v1/payment_profiles/,
+    /v1/invoice_emails/ and /v1/contracts/ collections, so per-account commercial terms are
+    modelled in the platform — they are simply not published as public plans. All four
+    collections are credentialed (HTTP 403).
+  media_model: >-
+    Advertising media buying — spend flows through campaigns rather than API subscription
+    tiers. The platform is described publicly as self-serve for campaign management, but
+    onboarding is gated.
+evidence:
+- url: https://www.tvscientific.com/pricing
+  status: 404
+- url: https://www.tvscientific.com/plans
+  status: 404
+- url: https://www.tvscientific.com/ctv-demo
+  status: 200
+  detail: '/get-started redirects here — a demo request form'
+- url: https://www.tvscientific.com/contact
+  status: 200
+- url: https://www.tvscientific.com/platform-master-agreement-demand/
+  status: 200
+  detail: Platform Master Agreement — commercial terms, no prices

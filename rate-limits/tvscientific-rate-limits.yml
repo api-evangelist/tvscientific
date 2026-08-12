@@ -1,0 +1,28 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Response headers observed on https://api.tvscientific.app/v1/ and
+  /v1/terms_and_conditions/ across ~60 anonymous requests on 2026-08-12. tvScientific
+  publishes no API documentation, so there is no rate-limit page to search.
+api: tvScientific Campaign Management API
+limit_count: 0
+documented: false
+docs: null
+headers_observed: []
+status_on_exhaustion: null
+retry_after: false
+rate_limits: []
+note: >-
+  An honest zero. No X-RateLimit-*, RateLimit-* (RFC 9331 draft), Retry-After or vendor
+  throttling header appeared on any response, and no 429 was returned across roughly sixty
+  sequential anonymous requests to the version roots and the one public collection. No public
+  documentation states a limit. This does NOT mean the API is unlimited — the credentialed
+  surface may throttle and simply not advertise it — it means an agent integrating against
+  this API has no runtime backoff signal to read and no published number to plan against.
+evidence:
+- url: https://api.tvscientific.app/v1/
+  status: 200
+  headers_returned: [date, content-type, content-length, server, vary, allow, x-frame-options, x-content-type-options, referrer-policy, cross-origin-opener-policy]
+- url: https://api.tvscientific.app/v1/terms_and_conditions/
+  status: 200
+  headers_returned: [date, content-type, content-length, server, vary, allow, x-frame-options, x-content-type-options, referrer-policy, cross-origin-opener-policy]

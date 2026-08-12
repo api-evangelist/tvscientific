@@ -1,0 +1,96 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Anonymous probes of https://api.tvscientific.app on 2026-08-12. No OpenAPI securitySchemes
+  exist to derive from (tvScientific publishes no spec) and no public authentication
+  documentation exists to search, so this profile is what the wire actually showed.
+api: tvScientific Campaign Management API
+docs: null
+docs_note: >-
+  There is no public auth page. help.tvscientific.com 301s to an Atlassian Service Desk
+  login (https://tvscientific.atlassian.net/servicedesk/customer/portal/2/user/login) and
+  support.tvscientific.com redirects into a Salesforce Community SAML request, so any
+  authentication guide tvScientific has written sits behind a customer login.
+posture: credentialed
+public_access: partial
+public_access_detail: >-
+  The version root indexes (/v1/, /v2/), the health endpoint (/health) and one collection
+  (/v1/terms_and_conditions/) are readable anonymously. Everything else — campaigns,
+  creatives, lineitems, audiences, advertisers, billing, users — requires credentials.
+schemes:
+- id: unidentified
+  type: unknown
+  confirmed: false
+  evidence:
+    status: 403
+    body: '{"detail":"Authentication credentials were not provided."}'
+    url: https://api.tvscientific.app/v1/campaigns/
+  note: >-
+    Django REST Framework returns 403 with this message when no authentication class
+    successfully authenticated the request AND none of them advertises a challenge. Because
+    no WWW-Authenticate header is sent, the accepted credential type cannot be named from
+    outside. Recorded as unidentified rather than guessed.
+- id: session-cookie
+  type: cookie
+  confirmed: false
+  confidence: medium
+  evidence:
+    header: 'Vary: Accept, Cookie, origin'
+    url: https://api.tvscientific.app/v1/
+  note: >-
+    The API varies its response on the Cookie header, which means a session cookie is at
+    least one of the inputs to authorization. This is consistent with the Campaign Management
+    UI at https://tvscientific.app calling this API with a session. It does not rule out a
+    token or key scheme also being accepted.
+oauth2: false
+oidc: false
+mutual_tls: false
+negative_probes:
+  # every published OAuth/OIDC/token discovery surface MISSED
+- url: https://api.tvscientific.app/.well-known/oauth-authorization-server
+  status: 404
+- url: https://api.tvscientific.app/.well-known/openid-configuration
+  status: 404
+- url: https://api.tvscientific.app/.well-known/oauth-protected-resource
+  status: 404
+- url: https://api.tvscientific.app/o/token/
+  status: 404
+- url: https://api.tvscientific.app/o/authorize/
+  status: 404
+- url: https://api.tvscientific.app/token/
+  status: 404
+- url: https://api.tvscientific.app/api-token-auth/
+  status: 404
+- url: https://api.tvscientific.app/v1/auth/
+  status: 404
+- url: https://api.tvscientific.app/v1/login/
+  status: 404
+- url: https://api.tvscientific.app/v1/register/
+  status: 404
+scopes: null
+scopes_note: >-
+  No OAuth surface exists, so there is no scope vocabulary to capture and no
+  scopes/ artifact is written. Authorization appears to be tenant- and role-based —
+  /v1/tenants/, /v1/organizations/, /v1/organization_users/, /v1/user_types/ and
+  /v1/advertiser_users/ are all first-class collections — but the model is not published.
+onboarding:
+  self_serve: false
+  path: >-
+    Access is arranged through the tvScientific account team. The public site offers a demo
+    request (https://www.tvscientific.com/ctv-demo) and a contact form
+    (https://www.tvscientific.com/contact); there is no developer sign-up, no API key
+    self-issuance page and no public credential lifecycle documentation.
+pointer_emitted: false
+pointer_note: >-
+  No `type: Authentication` pointer is wired into apis.yml. The scorer's check is
+  `authentication_documented`, and tvScientific documents nothing publicly — this artifact
+  records an observed 403 and a named absence, not a provider-published auth guide. Emitting
+  the pointer would credit tvScientific with auth documentation it has not published. Same
+  rule as the well-known and agent-card probes: the pointer asserts the PROVIDER serves the
+  surface.
+gaps:
+- No public authentication documentation.
+- No WWW-Authenticate challenge, so the scheme is undiscoverable from the wire.
+- 403 returned where 401 is semantically correct for a missing credential.
+- No OAuth 2.0 or OpenID Connect metadata document on any host.
+- No documented key rotation, expiry or revocation policy.

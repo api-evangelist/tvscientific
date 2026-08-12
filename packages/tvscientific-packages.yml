@@ -1,0 +1,74 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  Registry searches (npm, PyPI, RubyGems, crates.io, NuGet, Maven Central, pkg.go.dev,
+  Packagist) and the tvScientific GitHub organization (https://github.com/tvScientific),
+  2026-08-12.
+sdk_count: 0
+official_sdk_count: 0
+packages:
+- name: tvScientific Universal Site Pixel
+  kind: tag-template
+  registry: gtm-community-template-gallery
+  official: true
+  language: Google Tag Manager sandboxed JavaScript
+  source: https://github.com/tvScientific/gtm_tag
+  license: Apache-2.0
+  version: null
+  published: null
+  version_note: >-
+    Not a semantically versioned package and there is no registry metadata endpoint to query.
+    The Google Tag Manager Community Template Gallery pins releases by commit SHA, not
+    version number: metadata.yaml declares a single release, sha
+    8b362cc5bd465f2c297cc20e112ad8721b152508, changeNotes "Initial release." The repository
+    was last pushed 2025-10-15. Recorded as version null with this note — checked, nothing
+    numeric to record.
+  distributes: >-
+    Injects https://assets.tvspix.com/<tvsci_tracking_id>.js into the page. The template
+    takes one required parameter, tvsci_tracking_id, validates it, and single-fires.
+  note: >-
+    tvScientific's only first-party distributed client artifact. It is a measurement tag, not
+    an SDK — it wraps no API operations and exposes no programmable surface — so it does NOT
+    earn an `SDKs` pointer. See components/tvscientific-components.yml.
+registries_searched:
+- registry: npm
+  query: tvscientific
+  results: 0
+  url: https://registry.npmjs.org/-/v1/search?text=tvscientific
+- registry: PyPI
+  queries: [tvscientific, tvscientific-api, tv-scientific]
+  results: 0
+  status: 404
+- registry: RubyGems
+  results: 0
+- registry: crates.io
+  results: 0
+- registry: NuGet
+  results: 0
+- registry: Maven Central
+  results: 0
+- registry: pkg.go.dev
+  results: 0
+- registry: Packagist
+  results: 0
+github_org:
+  url: https://github.com/tvScientific
+  public_repos: 10
+  first_party_repos:
+  - name: gtm_tag
+    description: Repository for our Google Tag Manager gallery tags
+    license: Apache-2.0
+    pushed: '2025-10-15'
+  - name: psyclone
+    language: Python
+    pushed: '2023-05-02'
+    note: No description, no release, no registry publication.
+  forks_note: >-
+    The remaining eight public repositories are forks of unrelated upstream projects
+    (aws-sdk-pandas, cache-nix-action, ztracy, snowydeer, nix-develop, translate-c, arocc,
+    nixos-tailscale-subnet-router) and are not tvScientific products.
+finding: >-
+  tvScientific ships NO client SDK in any language, on any package registry, for its
+  Campaign Management API. Customers integrating with api.tvscientific.app write their own
+  HTTP client with no published contract to generate one from. No `SDKs` pointer is emitted
+  in apis.yml, because there is no SDK.

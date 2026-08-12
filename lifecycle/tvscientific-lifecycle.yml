@@ -1,0 +1,126 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  https://status.tvscientific.com/ and its Statuspage v2 JSON API, plus version-root probes
+  of https://api.tvscientific.app, 2026-08-12.
+api: tvScientific Campaign Management API
+
+status_page:
+  present: true
+  url: https://status.tvscientific.com/
+  status: 200
+  platform: Atlassian Statuspage
+  page_id: 4s33x5yk9wlx
+  page_name: tvScientific
+  machine_readable: true
+  endpoints:
+  - url: https://status.tvscientific.com/api/v2/summary.json
+    status: 200
+  - url: https://status.tvscientific.com/api/v2/status.json
+    status: 200
+  - url: https://status.tvscientific.com/api/v2/components.json
+    status: 200
+  - url: https://status.tvscientific.com/api/v2/incidents.json
+    status: 200
+  - url: https://status.tvscientific.com/api/v2/scheduled-maintenances.json
+    status: 200
+  feeds:
+  - url: https://status.tvscientific.com/history.rss
+    status: 200
+    type: application/rss+xml
+  - url: https://status.tvscientific.com/history.atom
+    status: 200
+    type: application/atom+xml
+  subscriptions: [email, sms, slack, rss, atom]
+  components:
+  - name: Campaign Management UI
+    detail: tvscientific.app
+    since: '2022-08-01'
+  - name: Campaign Management API
+    detail: api.tvscientific.app
+    since: '2022-08-01'
+  - name: Creative Healing
+    since: '2024-11-07'
+  - name: Bidder and Ad Serving Service
+    detail: Real Time Bidding service that powers tvScientific
+    since: '2024-06-01'
+  - name: Event Tracking
+    detail: >-
+      All tracking services owned or integrated by tvScientific — tvScientific pixels and
+      MMP integrations
+    since: '2024-06-01'
+  - name: Reporting and Attribution Service
+  - name: Reporting UI
+  incident_history:
+    records_available: 50
+    most_recent: '2026-04-29'
+    note: >-
+      A real, dated incident history going back to 2025 with impact levels
+      (critical/major/minor/none) — this is the richest public operational signal
+      tvScientific publishes, and the only one that is machine-readable.
+  verbatim: discovery/tvscientific-statuspage-summary.json
+  note: >-
+    The status page is the surface that discloses the API's existence at all: the component
+    "Campaign Management API" names api.tvscientific.app, which is how this round found the
+    API after a prior round recorded "no public API surface".
+
+versioning:
+  policy_published: false
+  scheme: uri-path
+  current: v2
+  supported:
+  - version: v1
+    root: https://api.tvscientific.app/v1/
+    status: live
+    collections: 35
+  - version: v2
+    root: https://api.tvscientific.app/v2/
+    status: live
+    collections: 15
+  note: >-
+    Two major versions serve concurrently. No published policy states which is current, how
+    long v1 is supported, or how a customer migrates. Determined by probe, not by document.
+
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No Deprecation or Sunset response header appeared on either version root, and no
+    deprecation policy page exists on any public tvScientific host. No `Deprecation` pointer
+    is emitted in apis.yml — there is nothing to point at.
+
+changelog:
+  published: false
+  note: >-
+    No dated API changelog or release-notes page was found. The Statuspage incident history
+    is an OPERATIONAL log, not a change log — it records outages, not contract changes — so
+    no ChangeLog pointer is emitted. tvScientific's marketing "press" and "insight" feeds
+    announce product news but carry no versioned API changes.
+
+sla:
+  published: false
+  note: >-
+    The status page shows 100.0% 90-day uptime per component, but that is a measurement, not
+    a commitment. No public SLA, uptime guarantee or credit policy was found; commercial
+    terms sit in the Platform Master Agreement
+    (https://www.tvscientific.com/platform-master-agreement-demand/).
+
+support:
+  channels:
+  - name: Help center
+    url: https://help.tvscientific.com/
+    status: 301
+    redirects_to: https://tvscientific.atlassian.net/servicedesk/customer/portal/2/user/login
+    public: false
+  - name: Customer support portal
+    url: https://support.tvscientific.com/
+    status: 200
+    redirects_to: Salesforce Community SAML sign-in
+    public: false
+  - name: Contact form
+    url: https://www.tvscientific.com/contact
+    status: 200
+    public: true

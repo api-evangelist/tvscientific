@@ -1,0 +1,61 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://github.com/tvScientific/gtm_tag (template.tpl + metadata.yaml, Apache-2.0,
+  first-party tvScientific GitHub organization) and https://www.tvscientific.com/integrations,
+  2026-08-12.
+api: tvScientific measurement surface
+component_count: 1
+families:
+- family: Measurement tags
+  components:
+  - name: tvScientific Universal Site Pixel
+    display_name_in_gtm: tvScientific Universal Site Pixel
+    tag_name: tvScientific Universal Site Tag
+    type: client-side tag
+    distribution: Google Tag Manager Community Template Gallery
+    source_repo: https://github.com/tvScientific/gtm_tag
+    license: Apache-2.0
+    loader: https://assets.tvspix.com/<tvsci_tracking_id>.js
+    loader_host: assets.tvspix.com
+    parameters:
+    - name: tvsci_tracking_id
+      required: true
+      type: string
+      note: >-
+        Validated against an allowed character set before use; blank or unsafe values
+        (e.g. "../evil") fail the tag rather than building a URL.
+    behaviour:
+    - Injects the tracking script exactly once per run (single-fire guard on both success and failure callbacks).
+    - Declares an explicit GTM inject_script permission scoped to https://assets.tvspix.com/.
+    - Trims and normalises the tracking id before building the URL.
+    docs: https://www.tvscientific.com
+    docs_note: >-
+      metadata.yaml points both `homepage` and `documentation` at the tvScientific marketing
+      root — there is no dedicated implementation guide for this tag on any public page.
+    placement_guidance: >-
+      Verbatim from the template: "The Universal Site Pixel (USP) must be the first script
+      that loads on your website prior to triggering any event-related functions."
+    release:
+      sha: 8b362cc5bd465f2c297cc20e112ad8721b152508
+      notes: Initial release.
+      repo_last_pushed: '2025-10-15'
+embedded_dashboards: []
+embedded_dashboards_note: >-
+  No embeddable reporting widget, iframe embed, web component or hosted UI element was found.
+  The Campaign Management UI (https://tvscientific.app) and Reporting UI are full
+  applications behind a login, not embeddable surfaces.
+related_surfaces:
+  conversion_postbacks:
+    first_party_evidence: https://www.tvscientific.com/integrations
+    detail: >-
+      tvScientific's own integrations page describes affiliate partners connecting "through
+      streamlined postback-based conversion tracking" (Avantlink) and lists MMP, affiliate,
+      conversion-tracking, measurement and audience integration categories. The postback
+      mechanics themselves are documented by the PARTNERS (Adjust, Ascend/Partnerize,
+      Rockerbox, Singular), not by tvScientific, and no first-party payload schema, event
+      catalog or webhook reference was found — so no AsyncAPI or Webhooks artifact is
+      written and no Webhooks pointer is emitted.
+    status_page_component: >-
+      "Event Tracking — This covers all tracking services owned or integrated by
+      tvScientific. Example: TvScientific pixels and MMP integrations."

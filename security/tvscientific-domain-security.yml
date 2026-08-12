@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-12'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -8,8 +8,25 @@ hosts:
   cert_expires: Sep 20 00:38:26 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: status.tvscientific.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 13 08:55:49 2026 GMT
+  hsts: true
+  hsts_max_age: 259200
+- host: api.tvscientific.app
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 15 23:59:59 2026 GMT
+  hsts: false
 domains:
 - domain: tvscientific.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: tvscientific.app
   dnssec: false
   caa: []
   spf: true

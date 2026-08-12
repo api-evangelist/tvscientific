@@ -1,0 +1,153 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  discovery/tvscientific-api-discovery.yml — derived from the resource collections the
+  tvScientific Campaign Management API's own version root indexes advertise
+  (https://api.tvscientific.app/v1/ and /v2/, both HTTP 200 anonymous, 2026-08-12), plus the
+  DRF OPTIONS metadata and record shapes returned by the one publicly readable collection.
+api: tvScientific Campaign Management API
+scope_note: >-
+  This is an ENTITY INVENTORY, not a schema. tvScientific publishes no OpenAPI, and every
+  collection except /v1/terms_and_conditions/ is credentialed, so field-level schemas could
+  not be read. Entities below are the collections the API itself names; only relationships
+  that were literally observed in a returned record are asserted. Nothing is inferred from
+  entity names alone.
+identifier_style: >-
+  Hyperlinked. Records carry an absolute self `url` plus an integer `id`, and relationships
+  are absolute resource URLs rather than bare ids or prefixed string keys.
+entities:
+- name: advertiser
+  collection: /v1/advertisers/
+  domain: account
+  sub_resources:
+  - /v1/advertisers/me/contracts/
+  - /v1/advertiser_users/
+  - /v1/advertiser_categories/
+- name: organization
+  collection: /v1/organizations/
+  domain: account
+  sub_resources:
+  - /v1/organization_users/
+- name: tenant
+  collection: /v1/tenants/
+  domain: account
+  note: Multi-tenant root; referenced by terms_and_conditions records.
+- name: user
+  collection: /v1/users/
+  domain: account
+  sub_resources:
+  - /v1/user_types/
+  - /v1/user_agreements/
+  - /v1/platform_invites/
+- name: campaign
+  collection: /v1/campaigns/
+  also: /v2/campaigns/
+  domain: buying
+  note: v2 additionally exposes /v2/campaigns/experiment/ (POST only).
+- name: lineitem
+  collection: /v2/lineitems/
+  domain: buying
+  variants:
+  - /v1/creative_lineitems/
+  - /v2/creativelineitems/
+  - /v1/static_display_lineitems/
+  - /v2/staticdisplaylineitems/
+  - /v2/staticcreativelineitems/
+- name: creative
+  collection: /v1/creatives/
+  also: /v2/creatives/
+  domain: creative
+  variants:
+  - /v1/static_display_creatives/
+- name: video_asset
+  collection: /v1/video_assets/
+  also: /v2/videoassets/
+  domain: creative
+- name: image_asset
+  collection: /v1/image_assets/
+  domain: creative
+- name: audience
+  collection: /v1/audiences/
+  also: /v2/audiences/
+  domain: targeting
+  sub_resources:
+  - /v1/audience_types/
+- name: allowed_targeting
+  collection: /v1/allowed_targeting/
+  also: /v2/allowed_targeting/
+  domain: targeting
+- name: targeting_key
+  collection: /v2/targetingkeys/
+  domain: targeting
+- name: targeting_reach
+  collection: /v2/targetingreach/
+  domain: targeting
+  note: Reach estimation surface.
+- name: bid_strategy
+  collection: /v1/bid_strategies/
+  domain: bidding
+  variants:
+  - /v2/simplifiedbidstrategies/
+  sub_resources:
+  - /v1/bid_strategy_events/
+- name: bidder_config
+  collection: /v2/bidder-config/
+  domain: bidding
+  note: POST only.
+- name: billing_account
+  collection: /v1/billing_accounts/
+  domain: billing
+- name: payment_profile
+  collection: /v1/payment_profiles/
+  domain: billing
+- name: invoice_email
+  collection: /v1/invoice_emails/
+  domain: billing
+- name: contract
+  collection: /v1/contracts/
+  domain: billing
+- name: terms_and_conditions
+  collection: /v1/terms_and_conditions/
+  domain: legal
+  public: true
+  fields:
+    id: {type: integer, read_only: true}
+    tenant: {type: field, required: true, note: hyperlink to /v1/tenants/<id>/}
+    text: {type: string, required: true, note: 'in practice a URL to the agreement, e.g. https://www.tvscientific.com/platform-master-agreement-demand/'}
+    version: {type: string, required: true, max_length: 101}
+    effective_date: {type: datetime, required: true}
+    url: {type: field, read_only: true, note: canonical self link}
+  fields_source: discovery/tvscientific-options-terms-and-conditions.json
+- name: referral_source
+  collection: /v1/referral_sources/
+  domain: growth
+  sub_resources:
+  - /v1/referral_source_costs/
+- name: alert
+  collection: /v1/alerts/
+  domain: operations
+relationships:
+- from: terms_and_conditions
+  to: tenant
+  kind: belongs_to
+  via: tenant
+  confidence: high
+  evidence: >-
+    Record 1 of https://api.tvscientific.app/v1/terms_and_conditions/ carries
+    "tenant": "https://api.tvscientific.app/v1/tenants/1/" (HTTP 200, 2026-08-12).
+relationships_note: >-
+  Exactly one relationship is asserted, because exactly one was observed. The naming of the
+  other collections strongly suggests the usual ad-platform graph (advertiser -> campaign ->
+  lineitem -> creative), but every one of those collections is credentialed and no record was
+  returned, so those edges are NOT recorded here. An authenticated round could read them
+  directly from the DRF OPTIONS metadata on each collection.
+internal_surface:
+  paths:
+  - /v1/internal/advertisers/
+  - /v1/internal/billing_summaries/
+  - /v1/internal/industry_verticals/
+  - /v1/internal/organizations/
+  note: >-
+    The v1 root index publicly advertises four collections namespaced "internal/", all
+    GET-only and all 403. They are enumerated by the provider's own index, so they are
+    recorded, but they read as staff-facing rather than customer-facing.

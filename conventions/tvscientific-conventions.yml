@@ -1,0 +1,143 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Observed responses from https://api.tvscientific.app/v1/ and /v2/ on 2026-08-12
+  (see discovery/tvscientific-api-discovery.yml). tvScientific publishes no public API
+  reference, so every convention below is read from a real HTTP response, not from docs.
+api: tvScientific Campaign Management API
+base_url: https://api.tvscientific.app
+docs: null
+docs_note: >-
+  No public developer portal or API reference exists. help.tvscientific.com 301s to an
+  Atlassian Service Desk login; support.tvscientific.com redirects into a Salesforce
+  Community SAML flow. Conventions here are PROBED, not documented by the provider.
+
+auth:
+  style: unknown-credentialed
+  observed: >-
+    Every collection except /v1/terms_and_conditions/ returns HTTP 403 with
+    {"detail":"Authentication credentials were not provided."}
+  challenge_header: none
+  note: >-
+    Django REST Framework answers 403 rather than 401 and sends no WWW-Authenticate header,
+    so the credential type (session cookie, token, key) cannot be determined anonymously.
+    `Vary: Accept, Cookie, origin` implies at least session-cookie authentication is one of
+    the accepted schemes.
+  see: authentication/tvscientific-authentication.yml
+
+versioning:
+  style: uri-path
+  observed_versions: [v1, v2]
+  roots:
+    - https://api.tvscientific.app/v1/
+    - https://api.tvscientific.app/v2/
+  note: >-
+    Two live major versions run side by side. v2 is a narrower campaign-buying surface
+    (campaigns, lineitems, creatives, targeting, bidder-config, quickstart); v1 carries the
+    full account/billing/user estate. No deprecation header, Sunset header or published
+    version policy was observed on either root.
+  media_type_versioning: false
+  header_versioning: false
+
+pagination:
+  style: page-number
+  params:
+    - name: page
+      observed: true
+      detail: '?page=2 on a 2-record collection returned 404 {"detail":"Invalid page."}'
+    - name: page_size
+      observed: true
+      detail: '?page_size=1 returned next=".../?page=2&page_size=1"'
+  response_fields:
+    count: total record count
+    next: absolute URL of the next page, or null
+    previous: absolute URL of the previous page, or null
+    results: the array of records
+  envelope_example_source: https://api.tvscientific.app/v1/terms_and_conditions/
+  note: >-
+    Standard Django REST Framework PageNumberPagination. `limit`/`offset` were accepted
+    without error but had no effect on the returned window, so they are ignored rather than
+    supported.
+
+filtering_and_sorting:
+  observed_params: [ordering, search]
+  note: >-
+    ?ordering= and ?search= were accepted on the one public collection without error, which
+    is consistent with DRF OrderingFilter/SearchFilter being installed, but their effect
+    could not be confirmed on a 2-record collection. Recorded as accepted, not as supported.
+
+content_negotiation:
+  request_formats: [application/json, application/x-www-form-urlencoded, multipart/form-data]
+  response_formats: [application/json, text/html]
+  format_override_param: format
+  format_values: [json, api]
+  note: >-
+    ?format=api renders the DRF browsable HTML API. Read from the DRF OPTIONS metadata
+    document at /v1/terms_and_conditions/ (renders/parses arrays) and confirmed by request.
+
+resource_identity:
+  style: hyperlinked
+  detail: >-
+    Records carry an absolute `url` field that is the canonical self link, and relationships
+    are expressed as absolute URLs rather than bare ids (e.g. a terms_and_conditions record's
+    `tenant` is "https://api.tvscientific.app/v1/tenants/1/"). Integer surrogate `id` is also
+    present. This is a DRF HyperlinkedModelSerializer.
+  trailing_slash: required
+  trailing_slash_detail: >-
+    Collection and detail paths end in "/". Requests without the trailing slash 404 rather
+    than redirect.
+
+schema_introspection:
+  mechanism: HTTP OPTIONS (Django REST Framework metadata)
+  detail: >-
+    OPTIONS on a permitted collection returns a JSON document with the view name, its
+    description, the renders/parses media types, and an `actions.POST` map giving each
+    writable field's type, required flag, read_only flag, label and max_length. This is the
+    closest thing to a machine-readable request schema tvScientific exposes.
+  publicly_reachable: false
+  publicly_reachable_note: >-
+    OPTIONS is 403 on every collection except /v1/terms_and_conditions/, so the field schemas
+    for campaigns, creatives, lineitems, audiences and the rest require credentials. A
+    customer with a token can introspect the whole surface this way.
+  example: discovery/tvscientific-options-terms-and-conditions.json
+
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No Idempotency-Key or equivalent header was advertised on any response, and no public
+    documentation describes one. Recorded as ABSENT — no Idempotency pointer is emitted in
+    apis.yml.
+
+request_tracing:
+  request_id_header: null
+  note: No X-Request-Id / X-Correlation-Id / traceparent header was returned on any probe.
+
+rate_limit_signalling:
+  headers_observed: []
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header appeared on any anonymous response,
+    including repeated calls. See rate-limits/tvscientific-rate-limits.yml.
+
+errors:
+  envelope: '{"detail": "<human readable message>"}'
+  rfc9457: false
+  content_type: application/json
+  note: >-
+    Django REST Framework's default error envelope. No `type`, `title`, `status` or
+    `instance` member, no application/problem+json media type, and no machine-readable error
+    code. See errors/tvscientific-problem-types.yml.
+
+security_headers:
+  x-frame-options: DENY
+  x-content-type-options: nosniff
+  referrer-policy: same-origin
+  cross-origin-opener-policy: same-origin
+  server: gunicorn
+
+cross_links:
+  errors: errors/tvscientific-problem-types.yml
+  authentication: authentication/tvscientific-authentication.yml
+  lifecycle: lifecycle/tvscientific-lifecycle.yml
+  rate_limits: rate-limits/tvscientific-rate-limits.yml
+  discovery: discovery/tvscientific-api-discovery.yml

@@ -1,38 +1,46 @@
 aid: tvscientific
 name: Tvscientific
 description: >-
-  tvScientific is a connected-TV (CTV) advertising platform for performance
-  marketers, pairing premium streaming-TV inventory with AI-powered bidding and
-  optimization and outcome-based measurement so brands can run television
-  campaigns against measurable goals like sales, app installs, and site traffic.
-  It positions itself on "premium inventory, AI-powered optimization, and radical
-  transparency," and offers a self-serve buying platform plus an academy and
-  reporting resources for advertisers and agencies. Originally surfaced as a
-  portfolio company of Norwest Venture Partners, its own web properties now brand
-  it "tvScientific by Pinterest." No public developer/API surface, OpenAPI, or
-  documentation portal was found during enrichment; the company publishes a
-  trust center, blog, and legal pages.
+  tvScientific is a connected-TV (CTV) advertising platform for performance marketers,
+  pairing premium streaming-TV inventory with AI-powered bidding and optimization and
+  outcome-based measurement so brands can run television campaigns against measurable goals
+  like sales, app installs, and site traffic. It positions itself on "premium inventory,
+  AI-powered optimization, and radical transparency," and offers a self-serve buying platform
+  plus an academy and reporting resources for advertisers and agencies. Originally surfaced as
+  a portfolio company of Norwest Venture Partners, it now brands itself "tvScientific by
+  Pinterest" after Pinterest completed its acquisition of the company in February 2026.
+  tvScientific runs a real Campaign Management REST API at api.tvscientific.app — named as a
+  component on its own status page — whose v1 and v2 version roots publicly enumerate 50
+  resource collections covering campaigns, line items, creatives, audiences, targeting, bid
+  strategies, billing and accounts. It publishes no developer program around it: no portal,
+  no API reference, no OpenAPI or GraphQL contract, no SDK, no CLI, and no MCP or agent
+  surface. Every collection but one is credentialed, both documentation hosts sit behind a
+  customer login, and the machine-readable operational signal is limited to an Atlassian
+  Statuspage API and a first-party Google Tag Manager measurement pixel.
 url: https://raw.githubusercontent.com/api-evangelist/tvscientific/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - norwest-venture-partners
+x-acquired-by: pinterest
 x-tier: stub
 x-tier-reason: portfolio-lead
 accessModel:
   pricing: unknown
-  onboarding: unknown
+  onboarding: sales
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Gated
+  confidence: medium
+  source:
+  - https://api.tvscientific.app/v1/
+  - https://www.tvscientific.com/ctv-demo
+  generated: '2026-08-12'
+  method: probed
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-12'
 image: https://www.tvscientific.com/hubfs/Opengraph.jpg
 tags:
 - Company
@@ -43,7 +51,49 @@ tags:
 - Performance Marketing
 - AdTech
 - Measurement
-apis: []
+- Campaign Management
+- Real Time Bidding
+- Attribution
+apis:
+- name: tvScientific Campaign Management API
+  description: >-
+    The REST API behind the tvScientific Campaign Management UI, named by tvScientific's own
+    status page as the "Campaign Management API" component running at api.tvscientific.app.
+    Two major versions serve concurrently. The v1 root advertises 35 collections spanning
+    advertisers, organizations, tenants, users, campaigns, creatives, creative and static
+    display line items, audiences, bid strategies, billing accounts, payment profiles,
+    contracts and assets; the v2 root advertises 15 narrower campaign-buying collections
+    including campaigns, lineitems, creatives, targeting keys, targeting reach, simplified
+    bid strategies, bidder config and a quickstart surface. Both version roots and one
+    collection (terms_and_conditions) are readable anonymously; every other collection
+    returns HTTP 403. tvScientific publishes no OpenAPI, no API reference and no SDK for it,
+    so the artifacts in this repo are probed rather than harvested.
+  humanURL: https://status.tvscientific.com/
+  baseURL: https://api.tvscientific.app/v1/
+  tags:
+  - Campaign Management
+  - Advertising
+  - Connected TV
+  - Real Time Bidding
+  properties:
+  - type: Discovery
+    name: API discovery record (probed)
+    url: discovery/tvscientific-api-discovery.yml
+  - type: Conventions
+    url: conventions/tvscientific-conventions.yml
+  # NO `Idempotency` pointer: conventions/ records idempotency as ABSENT (no Idempotency-Key
+  # header advertised, none documented). Emitting it would score a 9-point agent-readiness
+  # dimension the provider has not earned.
+  - type: ErrorCatalog
+    url: errors/tvscientific-problem-types.yml
+  - type: DataModel
+    url: data-model/tvscientific-data-model.yml
+  - type: Conformance
+    url: conformance/tvscientific-conformance.yml
+  - type: RateLimits
+    url: rate-limits/tvscientific-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/tvscientific-lifecycle.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -60,6 +110,31 @@ common:
 - type: Support
   name: Contact
   url: https://www.tvscientific.com/contact
+- type: HelpCenter
+  name: Help center (customer login required)
+  url: https://help.tvscientific.com/
+- type: Login
+  name: Campaign Management UI
+  url: https://tvscientific.app
+- type: GitHubOrganization
+  url: https://github.com/tvScientific
+- type: StatusPage
+  url: https://status.tvscientific.com/
+- type: Lifecycle
+  name: Lifecycle, versioning and status
+  url: lifecycle/tvscientific-lifecycle.yml
+- type: Integrations
+  name: Partner and measurement integrations
+  url: https://www.tvscientific.com/integrations
+- type: Components
+  name: Universal Site Pixel
+  url: components/tvscientific-components.yml
+- type: Packages
+  url: packages/tvscientific-packages.yml
+- type: Plans
+  url: plans/tvscientific-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/tvscientific-llms.txt
 - type: TermsOfService
   name: Platform Master Agreement
   url: https://www.tvscientific.com/platform-master-agreement-demand
@@ -73,7 +148,7 @@ common:
 - type: DomainSecurity
   url: security/tvscientific-domain-security.yml
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-12'
   status: enriched
-  artifacts_added: 2
+  artifacts_added: 13
   pass: local-v1

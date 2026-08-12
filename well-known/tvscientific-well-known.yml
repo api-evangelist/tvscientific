@@ -1,0 +1,240 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live unauthenticated GET of eight /.well-known/ paths against six tvScientific hosts
+  on 2026-08-12
+summary: >-
+  tvScientific serves NO first-party /.well-known/ document on any of its hosts. Two hosts
+  answer 200 to every path (single-page-app catch-alls) and one serves a security.txt that
+  belongs to Atlassian, not tvScientific. No WellKnown, APICatalog or SecurityTxt pointer is
+  emitted from this probe — this file records an absence, and an absence must not be scored
+  as a presence.
+hit_count: 0
+hosts:
+- host: www.tvscientific.com
+  note: HubSpot CMS; all paths return a real 404 (98KB branded 404 page)
+- host: api.tvscientific.app
+  note: Campaign Management API host (gunicorn/DRF); all paths return a real 179-byte 404
+- host: tvscientific.app
+  note: >-
+    Campaign Management UI (React SPA). Returns HTTP 200 with the app shell for EVERY path,
+    including /.well-known/agent-card.json and /llms.txt. Classic SPA catch-all false
+    positive — every 200 below is rejected as not-a-document.
+- host: status.tvscientific.com
+  note: Atlassian Statuspage instance
+- host: tvspix.com
+  note: tvScientific Universal Site Pixel delivery domain
+- host: trust.tvscientific.com
+  note: >-
+    Third-party trust-center SPA. Returns HTTP 200 with an HTML shell for every path —
+    same catch-all false positive as tvscientific.app.
+probes:
+- path: /.well-known/security.txt
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/openid-configuration
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/oauth-protected-resource
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/api-catalog
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/agent-card.json
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/agent.json
+  host: www.tvscientific.com
+  status: 404
+- path: /.well-known/security.txt
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/openid-configuration
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/oauth-protected-resource
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/api-catalog
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/agent-card.json
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/agent.json
+  host: api.tvscientific.app
+  status: 404
+- path: /.well-known/security.txt
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/agent-card.json
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/agent.json
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/api-catalog
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/openid-configuration
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/oauth-authorization-server
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/oauth-protected-resource
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/ai-plugin.json
+  host: tvscientific.app
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/security.txt
+  host: status.tvscientific.com
+  status: 200
+  content_type: text/plain
+  document: true
+  file: tvscientific-status-atlassian-security.txt
+  belongs_to: Atlassian, not tvScientific
+  verdict: rejected-third-party
+  detail: >-
+    A valid PGP-signed RFC 9116 security.txt, but every field points at Atlassian —
+    Canonical https://www.atlassian.com/.well-known/security.txt, Contact
+    mailto:security@atlassian.com, Policy https://www.atlassian.com/trust/security/
+    report-a-vulnerability. It is served by Atlassian Statuspage infrastructure on
+    tvScientific's status subdomain. Crediting it to tvScientific would attribute another
+    company's disclosure program to them, so no SecurityTxt or Security pointer is emitted.
+- path: /.well-known/openid-configuration
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/oauth-protected-resource
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/api-catalog
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/agent-card.json
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/agent.json
+  host: status.tvscientific.com
+  status: 404
+- path: /.well-known/security.txt
+  host: tvspix.com
+  status: 404
+- path: /.well-known/api-catalog
+  host: tvspix.com
+  status: 404
+- path: /.well-known/agent-card.json
+  host: tvspix.com
+  status: 404
+- path: /.well-known/agent.json
+  host: tvspix.com
+  status: 404
+- path: /.well-known/openid-configuration
+  host: tvspix.com
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  host: tvspix.com
+  status: 404
+- path: /.well-known/oauth-protected-resource
+  host: tvspix.com
+  status: 404
+- path: /.well-known/ai-plugin.json
+  host: tvspix.com
+  status: 404
+- path: /.well-known/security.txt
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/agent-card.json
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/agent.json
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/api-catalog
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/openid-configuration
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/oauth-authorization-server
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/oauth-protected-resource
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+- path: /.well-known/ai-plugin.json
+  host: trust.tvscientific.com
+  status: 200
+  content_type: text/html
+  document: false
+  verdict: rejected-spa-shell
+pointer_emitted: false
+pointer_note: >-
+  No WellKnown, APICatalog or SecurityTxt pointer is wired into apis.yml. Zero first-party
+  documents were served. Per the pipeline rule, the pointer asserts the PROVIDER serves the
+  surface, and tvScientific does not.

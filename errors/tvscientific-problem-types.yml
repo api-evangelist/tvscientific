@@ -1,0 +1,62 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Error responses observed directly from https://api.tvscientific.app on 2026-08-12.
+  tvScientific publishes no public error reference, so this catalog contains ONLY responses
+  that were actually returned to an anonymous client — nothing is inferred.
+api: tvScientific Campaign Management API
+format: none
+format_note: >-
+  Not RFC 9457. Errors are the Django REST Framework default envelope
+  {"detail": "<message>"} served as application/json. There is no `type` URI, no `title`,
+  no `status` member in the body, no `instance`, and no stable machine-readable error code —
+  an agent can only match on the human-readable English string, which is a fragile contract.
+envelope:
+  media_type: application/json
+  fields:
+    detail: human-readable message; the only member present
+  machine_readable_code: false
+observed:
+- status: 403
+  detail: Authentication credentials were not provided.
+  body: '{"detail":"Authentication credentials were not provided."}'
+  meaning: >-
+    The request carried no credentials. Returned by every collection under /v1/ and /v2/
+    except /v1/terms_and_conditions/, for GET, POST and OPTIONS alike.
+  remediation: >-
+    Authenticate. The credential type is not publicly documented and no WWW-Authenticate
+    challenge is sent; obtain access through the tvScientific account team.
+  observed_at: https://api.tvscientific.app/v1/campaigns/
+  note: >-
+    DRF returns 403 here rather than the semantically correct 401 for an unauthenticated
+    request, because no authentication class advertises a challenge. Clients cannot
+    distinguish "not authenticated" from "authenticated but forbidden" by status alone —
+    only by the message string.
+- status: 404
+  detail: Invalid page.
+  body: '{"detail":"Invalid page."}'
+  meaning: A pagination `page` value outside the available range.
+  remediation: Follow the `next`/`previous` links in the page envelope instead of guessing page numbers.
+  observed_at: https://api.tvscientific.app/v1/terms_and_conditions/?page=2
+  note: >-
+    A pagination overrun is reported as 404 with a JSON body, unlike an unmatched route which
+    is reported as 404 with an HTML body — two different 404 shapes on one host.
+- status: 404
+  detail: null
+  body: '<!doctype html><html lang="en"><head><title>Not Found</title></head><body><h1>Not Found</h1><p>The requested resource was not found on this server.</p></body></html>'
+  media_type: text/html
+  meaning: Unmatched route.
+  remediation: Check the path against the version root index (/v1/ or /v2/).
+  observed_at: https://api.tvscientific.app/openapi.json
+  note: >-
+    Routing 404s are HTML, not JSON, and carry no `detail`. A JSON client must handle a
+    non-JSON error body on this API.
+gaps:
+- No published error-code registry or error reference page.
+- No application/problem+json support (RFC 9457).
+- No stable error identifiers — only English message strings.
+- 403 used where 401 is meant; no WWW-Authenticate challenge.
+- Two incompatible 404 body shapes (JSON and HTML) on the same host.
+- >-
+  Validation (400) and rate-limit (429) shapes could not be observed because every writable
+  collection is credentialed. They are absent from this catalog rather than guessed.

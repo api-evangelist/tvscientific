@@ -1,0 +1,380 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live unauthenticated HTTP probes of https://api.tvscientific.app/ on 2026-08-12,
+  reached from the tvScientific status page component "Campaign Management API"
+  (description "api.tvscientific.app") at https://status.tvscientific.com/api/v2/summary.json
+title: tvScientific Campaign Management API — discovery record
+summary: >-
+  tvScientific publishes no developer portal, no OpenAPI/Swagger document, no GraphQL
+  endpoint, no MCP server and no A2A agent card. It DOES run a live, publicly reachable
+  REST API at https://api.tvscientific.app whose version root indexes (/v1/ and /v2/)
+  are served anonymously and enumerate every resource collection. Every collection but
+  one requires authentication. This file records exactly what the anonymous probe saw,
+  verbatim; nothing here is inferred beyond the HTTP responses cited.
+
+ownership:
+  verdict: confirmed
+  why: >-
+    The host is named by tvScientific's own status page (status.tvscientific.com, page id
+    4s33x5yk9wlx, page.name "tvScientific") as the component "Campaign Management API",
+    description "api.tvscientific.app". Independently, the one publicly readable collection
+    (/v1/terms_and_conditions/) returns records whose `text` field links to
+    https://www.tvscientific.com/platform-master-agreement-demand/ — tvScientific's own
+    Platform Master Agreement. Both signals point at tvScientific, not a sibling brand.
+  evidence:
+    - url: https://status.tvscientific.com/api/v2/summary.json
+      status: 200
+      detail: 'component "Campaign Management API" description "api.tvscientific.app"'
+    - url: https://api.tvscientific.app/v1/terms_and_conditions/
+      status: 200
+      detail: 'record 1 text -> https://www.tvscientific.com/platform-master-agreement-demand/'
+
+host:
+  base: https://api.tvscientific.app
+  root_probe:
+    url: https://api.tvscientific.app/
+    status: 200
+    body: '"ok"'
+  health:
+    url: https://api.tvscientific.app/health
+    status: 200
+    body: '"ok"'
+  server: gunicorn
+  stack_signals:
+    - 'Django REST Framework: hyperlinked root index, {"detail": ...} error envelope, ?format=api browsable renderer, DRF OPTIONS metadata document'
+    - 'response headers: x-frame-options DENY, x-content-type-options nosniff, referrer-policy same-origin, cross-origin-opener-policy same-origin'
+    - 'vary: Accept, Cookie, origin'
+  not_found_behaviour: >-
+    Unmatched paths return a real HTTP 404 with a 179-byte HTML body ("Not Found"), so this
+    host is NOT an SPA catch-all and 200s below are genuine.
+
+specifications_probed:
+  # every one of these MISSED — recorded so a later round does not re-litigate it
+  - url: https://api.tvscientific.app/openapi.json
+    status: 404
+  - url: https://api.tvscientific.app/openapi.yaml
+    status: 404
+  - url: https://api.tvscientific.app/swagger.json
+    status: 404
+  - url: https://api.tvscientific.app/v1/openapi.json
+    status: 404
+  - url: https://api.tvscientific.app/api-docs
+    status: 404
+  - url: https://api.tvscientific.app/docs
+    status: 404
+  - url: https://api.tvscientific.app/redoc
+    status: 404
+  - url: https://api.tvscientific.app/api/schema/
+    status: 404
+  - url: https://api.tvscientific.app/graphql
+    status: 404
+  - url: https://www.tvscientific.com/openapi.json
+    status: 404
+  - url: https://www.tvscientific.com/llms.txt
+    status: 404
+  - url: https://tvscientific.app/openapi.json
+    status: 200
+    note: >-
+      HTML shell, not a spec — tvscientific.app is a React SPA that answers 200 with the app
+      shell for every unmatched path. Rejected as a false positive.
+
+version_roots:
+  - version: v1
+    url: https://api.tvscientific.app/v1/
+    status: 200
+    auth_required: false
+    collections: 35
+    verbatim: discovery/tvscientific-api-root-v1.json
+  - version: v2
+    url: https://api.tvscientific.app/v2/
+    status: 200
+    auth_required: false
+    collections: 15
+    verbatim: discovery/tvscientific-api-root-v2.json
+
+# Observed HTTP status and the server's own Allow header for every collection the version
+# roots advertise. allowed_methods is READ FROM THE `Allow` RESPONSE HEADER the server sent
+# — it is the API's own declaration, not an assumption about REST/DRF conventions.
+collections:
+  - collection: advertisers
+    version: v1
+    path: /v1/advertisers/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: advertiser_categories
+    version: v1
+    path: /v1/advertiser_categories/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: advertiser_users
+    version: v1
+    path: /v1/advertiser_users/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: alerts
+    version: v1
+    path: /v1/alerts/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: allowed_targeting
+    version: v1
+    path: /v1/allowed_targeting/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: audiences
+    version: v1
+    path: /v1/audiences/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: audience_types
+    version: v1
+    path: /v1/audience_types/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: bid_strategies
+    version: v1
+    path: /v1/bid_strategies/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: bid_strategy_events
+    version: v1
+    path: /v1/bid_strategy_events/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: billing_accounts
+    version: v1
+    path: /v1/billing_accounts/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: campaigns
+    version: v1
+    path: /v1/campaigns/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: static_display_creatives
+    version: v1
+    path: /v1/static_display_creatives/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: contracts
+    version: v1
+    path: /v1/contracts/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: creatives
+    version: v1
+    path: /v1/creatives/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: creative_lineitems
+    version: v1
+    path: /v1/creative_lineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: static_display_lineitems
+    version: v1
+    path: /v1/static_display_lineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: invoice_emails
+    version: v1
+    path: /v1/invoice_emails/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: payment_profiles
+    version: v1
+    path: /v1/payment_profiles/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: platform_invites
+    version: v1
+    path: /v1/platform_invites/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: referral_sources
+    version: v1
+    path: /v1/referral_sources/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: referral_source_costs
+    version: v1
+    path: /v1/referral_source_costs/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: users
+    version: v1
+    path: /v1/users/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: user_types
+    version: v1
+    path: /v1/user_types/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: organizations
+    version: v1
+    path: /v1/organizations/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: organization_users
+    version: v1
+    path: /v1/organization_users/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: user_agreements
+    version: v1
+    path: /v1/user_agreements/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: terms_and_conditions
+    version: v1
+    path: /v1/terms_and_conditions/
+    observed_status: 200
+    allowed_methods: [GET, POST]
+  - collection: image_assets
+    version: v1
+    path: /v1/image_assets/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: tenants
+    version: v1
+    path: /v1/tenants/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: video_assets
+    version: v1
+    path: /v1/video_assets/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: internal/advertisers
+    version: v1
+    path: /v1/internal/advertisers/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: internal/billing_summaries
+    version: v1
+    path: /v1/internal/billing_summaries/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: internal/industry_verticals
+    version: v1
+    path: /v1/internal/industry_verticals/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: internal/organizations
+    version: v1
+    path: /v1/internal/organizations/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: advertisers/me/contracts
+    version: v1
+    path: /v1/advertisers/me/contracts/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: allowed_targeting
+    version: v2
+    path: /v2/allowed_targeting/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: audiences
+    version: v2
+    path: /v2/audiences/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: bidder-config
+    version: v2
+    path: /v2/bidder-config/
+    observed_status: 403
+    allowed_methods: [POST]
+  - collection: campaigns/experiment
+    version: v2
+    path: /v2/campaigns/experiment/
+    observed_status: 403
+    allowed_methods: [POST]
+  - collection: campaigns
+    version: v2
+    path: /v2/campaigns/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: creativelineitems
+    version: v2
+    path: /v2/creativelineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: creatives
+    version: v2
+    path: /v2/creatives/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: lineitems
+    version: v2
+    path: /v2/lineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: simplifiedbidstrategies
+    version: v2
+    path: /v2/simplifiedbidstrategies/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: staticdisplaylineitems
+    version: v2
+    path: /v2/staticdisplaylineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: staticcreativelineitems
+    version: v2
+    path: /v2/staticcreativelineitems/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: videoassets
+    version: v2
+    path: /v2/videoassets/
+    observed_status: 403
+    allowed_methods: [GET, POST]
+  - collection: quickstart
+    version: v2
+    path: /v2/quickstart/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: targetingkeys
+    version: v2
+    path: /v2/targetingkeys/
+    observed_status: 403
+    allowed_methods: [GET]
+  - collection: targetingreach
+    version: v2
+    path: /v2/targetingreach/
+    observed_status: 403
+    allowed_methods: [GET]
+
+public_collections:
+  - path: /v1/terms_and_conditions/
+    status: 200
+    note: >-
+      The only collection readable without credentials. Returns the DRF page envelope
+      {count,next,previous,results} with 2 hyperlinked records. OPTIONS on this path also
+      returns 200 with the full DRF metadata document (field names, types, required flags,
+      max_length) — saved verbatim to discovery/tvscientific-options-terms-and-conditions.json.
+      Every other collection returns 403 to both GET and OPTIONS.
+
+gated:
+  posture: authenticated
+  status: 403
+  body: '{"detail":"Authentication credentials were not provided."}'
+  note: >-
+    Django REST Framework returns 403 (not 401) and sends no WWW-Authenticate challenge, so
+    the credential type cannot be determined anonymously. No token, login, OAuth or OIDC
+    endpoint answered: /o/token/, /o/authorize/, /token/, /api-token-auth/, /v1/auth/,
+    /v1/login/, /.well-known/oauth-authorization-server and /.well-known/openid-configuration
+    all returned 404 on api.tvscientific.app.
+
+no_contract_published: true
+no_contract_note: >-
+  A live API is NOT a published contract. tvScientific ships no OpenAPI, no GraphQL SDL, no
+  AsyncAPI, no MCP manifest, no agent card, no llms.txt, no /.well-known/ documents and no
+  public developer portal or API reference. Both documentation hosts are credentialed:
+  help.tvscientific.com 301s to an Atlassian Service Desk login and support.tvscientific.com
+  redirects into a Salesforce Community SAML flow. This record is the machine-readable
+  substitute API Evangelist could build from the public surface — it is NOT a specification
+  and must never be treated as one, and no OpenAPI has been synthesised from it.
