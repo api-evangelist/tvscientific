@@ -38,7 +38,7 @@ accessModel:
   - https://www.tvscientific.com/ctv-demo
   generated: '2026-08-12'
   method: probed
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-08-12'
 image: https://www.tvscientific.com/hubfs/Opengraph.jpg
