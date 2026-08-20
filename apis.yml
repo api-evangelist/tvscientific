@@ -50,6 +50,18 @@ tags:
 - Streaming
 - Performance Marketing
 - AdTech
+- Measurements
+- Campaign Management
+- Real-Time Bidding
+- Attribution
+tags_raw:
+- Company
+- Advertising
+- Connected TV
+- CTV
+- Streaming
+- Performance Marketing
+- AdTech
 - Measurement
 - Campaign Management
 - Real Time Bidding
@@ -71,6 +83,11 @@ apis:
   humanURL: https://status.tvscientific.com/
   baseURL: https://api.tvscientific.app/v1/
   tags:
+  - Campaign Management
+  - Advertising
+  - Connected TV
+  - Real-Time Bidding
+  tags_raw:
   - Campaign Management
   - Advertising
   - Connected TV
