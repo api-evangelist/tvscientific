@@ -128,6 +128,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: RateLimits
+  url: rate-limits/tvscientific-rate-limits.yml
 - url: https://www.tvscientific.com/insight/rss.xml
   type: BlogRSS
 - type: Website
