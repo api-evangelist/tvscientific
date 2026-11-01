@@ -64,6 +64,105 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Tvscientific is a company surfaced as a portfolio company of norwest-venture-partners and added to the API Evangelist network as a stub for enrichment. Sector: unknown. This profile is a lead awaiting the enrichment pipeline.
+tvScientific is a connected-TV (CTV) advertising platform for performance marketers, pairing premium streaming-TV inventory with AI-powered bidding and optimization and outcome-based measurement so brands can run television campaigns against measurable goals like sales, app installs, and site traffic. It positions itself on "premium inventory, AI-powered optimization, and radical transparency," and offers a self-serve buying platform plus an academy and reporting resources for advertisers and agencies. Originally surfaced as a portfolio company of Norwest Venture Partners, it now brands itself "tvScientific by Pinterest" after Pinterest completed its acquisition of the company in February 2026. tvScientific runs a real Campaign Management REST API at api.tvscientific.app — named as a component on its own status page — whose v1 and v2 version roots publicly enumerate 50 resource collections covering campaigns, line items, creatives, audiences, targeting, bid strategies, billing and accounts. It publishes no developer program around it: no portal, no API reference, no OpenAPI or GraphQL contract, no SDK, no CLI, and no MCP or agent surface. Every collection but one is credentialed, both documentation hosts sit behind a customer login, and the machine-readable operational signal is limited to an Atlassian Statuspage API and a first-party Google Tag Manager measurement pixel.
 
-Backed by: norwest-venture-partners — https://tvscientific.com
+**Areas:** Company · Advertising · Connected TV · CTV · Streaming · Performance Marketing · AdTech · Measurements · Campaign Management · Real-Time Bidding · Attribution
+
+## Tvscientific on APIs.io
+
+Everything profiled for Tvscientific is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/tvscientific/](https://apis.io/providers/tvscientific/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [tvScientific Campaign Management API](https://apis.io/apis/tvscientific/tvscientific-campaign-management-api/) — The REST API behind the tvScientific Campaign Management UI, named by tvScientific's own status page as the "Campaign Management API" component running at…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Tvscientific Authentication](https://apis.io/security/tvscientific/tvscientific-authentication/)
+- [Tvscientific Domain Security](https://apis.io/security/tvscientific/tvscientific-domain-security/)
+- [Tvscientific Trust Center](https://apis.io/security/tvscientific/tvscientific-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Tvscientific Plans Pricing](https://apis.io/plans/tvscientific/tvscientific-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Tvscientific Rate Limits](https://apis.io/rate-limits/tvscientific/tvscientific-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://tvscientific.com)
+- [Getting started](https://www.tvscientific.com/academy)
+- [Support](https://www.tvscientific.com/contact)
+- [Blog](https://www.tvscientific.com/insight)
+- [Trust centre](https://trust.tvscientific.com/)
+- [Terms of service](https://www.tvscientific.com/platform-master-agreement-demand)
+- [Privacy policy](https://www.tvscientific.com/privacy-policy)
+- [GitHub](https://github.com/tvScientific)
+- [Status](https://status.tvscientific.com/)
+
+## API Evangelist rating
+
+**Kin Score 22.4** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 34.2 |
+
+**Agent readiness 5.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 18.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/tvscientific/](https://apis.io/providers/tvscientific/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Tvscientific: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/tvscientific/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
